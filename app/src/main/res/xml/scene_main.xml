@@ -1,15 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        app:constraintSetStart="@id/expanded"
-        app:constraintSetEnd="@id/collapsed">
+        motion:constraintSetEnd="@id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="250"
+        motion:motionInterpolator="linear">
 
+        <KeyFrameSet>
+
+            <KeyAttribute
+                motion:framePosition="0"
+                motion:motionTarget="@id/bottom_nav">
+                <CustomAttribute
+                    motion:attributeName="translationY"
+                    motion:customPixelDimension="0dp"/>
+            </KeyAttribute>
+
+            <KeyAttribute
+                motion:framePosition="75"
+                motion:motionTarget="@id/bottom_nav">
+                <CustomAttribute
+                    motion:attributeName="translationY"
+                    motion:customPixelDimension="42dp"/>
+            </KeyAttribute>
+
+            <KeyAttribute
+                motion:framePosition="100"
+                motion:motionTarget="@id/backgroundDim">
+                <CustomAttribute
+                    motion:attributeName="backgroundColor"
+                    motion:customColorValue="@color/semiTransparentBlack"/>
+            </KeyAttribute>
+
+            <KeyAttribute
+                motion:framePosition="0"
+                motion:motionTarget="@id/backgroundDim">
+                <CustomAttribute
+                    motion:attributeName="backgroundColor"
+                    motion:customColorValue="@android:color/transparent"/>
+            </KeyAttribute>
+
+        </KeyFrameSet>
 
     </Transition>
 
-    <ConstraintSet android:id="@+id/expanded"/>
-    <ConstraintSet android:id="@+id/collapsed"/>
+    <ConstraintSet android:id="@+id/start"/>
+    <ConstraintSet android:id="@+id/end"/>
 
 </MotionScene>

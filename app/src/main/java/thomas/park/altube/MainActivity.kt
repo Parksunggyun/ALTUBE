@@ -14,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_player.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,8 +23,9 @@ class MainActivity : AppCompatActivity() {
         val TAG = MainActivity::class.java.simpleName
     }
 
-    private val fragmentManager = supportFragmentManager
-    private val fragmentHome = FragmentHome()
+
+
+    lateinit var fragmentHome : FragmentHome
     private val fragmentHot = FragmentHot()
     private val fragmentSubscribe = FragmentSubscribe()
     private val fragmentLetterBox = FragmentLetterBox()
@@ -32,13 +35,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mainLayout = findViewById<MotionLayout>(R.id.mainLayout)
-
+/*
         val imageClear = findViewById<ImageView>(R.id.image_clear)
         val topImageContainer = findViewById<ConstraintLayout>(R.id.top_image_container)
         //topImageContainer.setOnTouchListener(OnSwipeTouchListener(this@MainActivity, mainLayout))
 
-/*        imageClear.setOnClickListener {
+*//*        imageClear.setOnClickListener {
             Log.e(TAG, "asdsadasdsadasdsadas")
             when (mainLayout.currentState) {
                 R.id.end -> {
@@ -46,29 +48,29 @@ class MainActivity : AppCompatActivity() {
                     mainLayout.transitionToEnd()
                 }
             }
-        }*/
+        }*//*
 
 
-        val recyclerViewFront = findViewById<RecyclerView>(R.id.recyclerview_front)
+        val recyclerViewFront = findViewById<RecyclerView>(R.id.recyclerview_front)*/
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavigationView.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
-        bottomNavigationView.selectedItemId = R.id.navigation_home
+        bottom_nav.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
+        bottom_nav.selectedItemId = R.id.navigation_home
 
 
-        recyclerViewFront.apply {
+/*        recyclerViewFront.apply {
             adapter = PhotosAdapter(this@MainActivity, mainLayout)
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(this@MainActivity)
-        }
+        }*/
     }
 
     inner class MenuItemSelectedListener : BottomNavigationView.OnNavigationItemSelectedListener {
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
-            val transaction = fragmentManager.beginTransaction()
+            val transaction = supportFragmentManager.beginTransaction()
             when (item.itemId) {
                 R.id.navigation_home -> {
                     item.setIcon(R.drawable.ic_home_red_24dp)
+                    fragmentHome = FragmentHome(mainLayout)
                     transaction.replace(R.id.container_bottom_menu, fragmentHome)
                         .commitAllowingStateLoss()
                 }
@@ -91,6 +93,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             return true
+        }
+    }
+
+    override fun onBackPressed() {
+        (supportFragmentManager.findFragmentById(R.id.container_bottom_menu)).also {
+            if(it == null) {
+                super.onBackPressed()
+                return
+            }
+            it as FragmentHome
+            if(it.videoMotionLayout.currentState == R.id.start)
+                it.videoMotionLayout.transitionToEnd()
+            super.onBackPressed()
+
         }
     }
 }
