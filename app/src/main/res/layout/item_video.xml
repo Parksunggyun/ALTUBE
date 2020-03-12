@@ -36,6 +36,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/videoDescriptionTxtView"
             android:padding="8dp"
+            android:textColor="@color/colorGray"
             app:layout_constraintEnd_toStartOf="@id/menuImgView"
             app:layout_constraintStart_toEndOf="@id/uploaderImgView"
             app:layout_constraintTop_toTopOf="@id/uploaderImgView"

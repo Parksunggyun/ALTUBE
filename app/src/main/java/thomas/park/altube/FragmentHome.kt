@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class FragmentHome(val mainLayout: MotionLayout) : Fragment() {
+class FragmentHome : Fragment() {
 
     var itemTouch = false
+
+    lateinit var mainLayout : MotionLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +27,8 @@ class FragmentHome(val mainLayout: MotionLayout) : Fragment() {
 
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val homeRecyclerView = view.findViewById(R.id.homeRecyclerView) as RecyclerView
+
 
         homeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -48,7 +53,7 @@ class FragmentHome(val mainLayout: MotionLayout) : Fragment() {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                     if(MotionEvent.ACTION_UP == e.action && itemTouch) {
                         Log.e("onIntercept", "trjegwl")
-                        mainLayout.transitionToStart()
+                        mainLayout.transitionToState(R.id.expanded)
                     } else if(MotionEvent.ACTION_DOWN == e.action) {
                         itemTouch = true
                     }

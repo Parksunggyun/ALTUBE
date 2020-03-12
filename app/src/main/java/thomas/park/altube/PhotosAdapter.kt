@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
 
-class PhotosAdapter(private val context : Context, private val mainLayout : ConstraintLayout) : RecyclerView.Adapter<PhotosAdapter.YouTubeDemoViewHolder>() {
+class PhotosAdapter(private val context : Context, private val mainLayout : MotionLayout) : RecyclerView.Adapter<PhotosAdapter.YouTubeDemoViewHolder>() {
 
     companion object {
         val TAG = PhotosAdapter::class.java.simpleName

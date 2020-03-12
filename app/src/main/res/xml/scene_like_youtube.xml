@@ -10,14 +10,10 @@
 
 
         <OnSwipe
-            motion:touchRegionId="@id/top_image_container"
             motion:dragDirection="dragDown"
             motion:onTouchUp="autoComplete"
-            motion:touchAnchorSide="bottom"/>
-
-        <OnClick
-            motion:targetId="@id/image_clear"
-            motion:clickAction="transitionToStart"/>
+            motion:touchAnchorSide="bottom"
+            motion:touchAnchorId="@id/top_image_container"/>
 
         <KeyFrameSet>
 
@@ -64,7 +60,7 @@
         <Constraint
             android:id="@id/container_bottom_menu"/>
         <Constraint
-            android:id="@+id/detailVideoContainer"
+            android:id="@id/detailVideoContainer"
             android:background="#000000"
             android:alpha="1"
             android:layout_width="match_parent"
@@ -73,10 +69,8 @@
 
         <Constraint
             android:id="@id/top_image_container"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="320dp"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"/>
 
         <Constraint

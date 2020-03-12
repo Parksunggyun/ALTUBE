@@ -18,7 +18,7 @@ class FragmentHomeAdapter(private val context: Context, private val fishes: Fish
         val itemView = inflater.inflate(viewType, parent, false)
         return when(viewType) {
             R.layout.item_toolbar -> HomeViewHolder.HomeToolbarViewHolder(itemView)
-            R.layout.item_video -> HomeViewHolder.HomeToolbarViewHolder(itemView)
+            R.layout.item_video -> HomeViewHolder.HomeContentsViewHolder(itemView)
             else -> throw IllegalStateException("Unknown viewType $viewType")
         }
     }
@@ -30,9 +30,9 @@ class FragmentHomeAdapter(private val context: Context, private val fishes: Fish
             }
 
             is HomeViewHolder.HomeContentsViewHolder -> {
-                Glide.with(context).load(fishes.fishImages[position]).into(holder.thumbnail)
-                Glide.with(context).load(fishes.fishImages[position]).into(holder.uploaderImg)
-                holder.description.text = fishes.fishNames[position]
+                Glide.with(context).load(fishes.fishImages[position - 1]).into(holder.thumbnail)
+                Glide.with(context).load(fishes.fishImages[position - 1]).into(holder.uploaderImg)
+                holder.description.text = fishes.fishNames[position - 1]
             }
         }
 

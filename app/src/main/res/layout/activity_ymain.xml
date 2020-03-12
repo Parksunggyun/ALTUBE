@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/scene_like_youtube"
-    android:background="#FFF"
-    tools:context=".MainActivity"
-    tools:showPaths="true"
+    android:background="@android:color/white"
+    android:id="@+id/ymainLayout"
+    app:showPaths="true"
     app:motionDebug="SHOW_ALL"
-    android:id="@+id/mainLayout"
+    app:layoutDescription="@xml/scene_ymain"
     tools:ignore="contentDescription">
 
     <FrameLayout
-        android:id="@+id/container_bottom_menu"
+        android:id="@+id/page_container"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@id/bottom_ynav"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/detailVideoContainer"
-        android:background="#E1000000"
+        android:background="#00000000"
         android:alpha="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_image_container"
+        android:id="@+id/videoDetailLayout"
+        app:layout_constraintTop_toBottomOf="@id/bottom_ynav"
         android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="56dp"/>
 
     <ImageView
-        android:id="@+id/top_image"
+        android:id="@+id/videoImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:scaleType="centerCrop"
         android:src="@drawable/photo"
-        app:layout_constraintTop_toTopOf="@id/top_image_container"
-        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
-        app:layout_constraintStart_toStartOf="@id/top_image_container"
-        app:layout_constraintEnd_toEndOf="@id/top_image_container"/>
+        app:layout_constraintDimensionRatio="H,1:2.5"
+        app:layout_constraintTop_toTopOf="@id/videoDetailLayout"
+        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+        app:layout_constraintStart_toStartOf="@id/videoDetailLayout"/>
 
     <ImageView
-        android:id="@+id/image_play"
+        android:id="@+id/playImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:alpha="0"
         android:src="@drawable/ic_play_arrow_black_32dp"
-        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
-        app:layout_constraintEnd_toStartOf="@id/image_clear"
-        app:layout_constraintTop_toTopOf="@id/top_image_container" />
-
-    <ImageView
-        android:id="@+id/image_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:alpha="0"
+        app:layout_constraintEnd_toStartOf="@id/clearImage"
+        app:layout_constraintTop_toTopOf="@id/videoDetailLayout"
+        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"/>
+
+    <ImageView
+        android:id="@+id/clearImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_clear_black_32dp"
-        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
-        app:layout_constraintEnd_toEndOf="@id/top_image_container"
-        app:layout_constraintTop_toTopOf="@id/top_image_container" />
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="@id/videoDetailLayout"
+        app:layout_constraintTop_toTopOf="@id/videoDetailLayout"
+        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"/>
+
 
     <FrameLayout
         android:id="@+id/recyclerview_container"
@@ -76,31 +77,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/top_image_container" />
+        app:layout_constraintTop_toTopOf="@id/videoDetailLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_front"
-        android:layout_width="0dp"
+        android:id="@+id/recommendListView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_image_container" />
+        android:alpha="0"
+        android:background="@color/colorGray"
+        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+        app:layout_constraintTop_toBottomOf="@id/videoDetailLayout"/>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:background="?android:attr/windowBackground"
+        android:id="@+id/bottom_ynav"
+        android:background="@drawable/border_lgtgray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:labelVisibilityMode="labeled"
         app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
         app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
         app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
         app:itemIconTint="@color/colorGray"
-        app:menu="@menu/bottom_nav_menu" />
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:menu="@menu/bottom_nav_menu"/>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
