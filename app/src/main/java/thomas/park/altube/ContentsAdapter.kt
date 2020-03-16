@@ -37,7 +37,7 @@ class ContentsAdapter(private val context: Context, private val mainLayout: Cons
                 holder.textView.text =
                     holder.textView.resources.getString(R.string.fish_n, imagePosition)
                 Glide.with(context)
-                    .load(Fishes.fishImages[imagePosition])
+                    .load(Photos.photoImages[imagePosition])
                     .into(holder.imageView)
             }
         }
@@ -52,7 +52,7 @@ class ContentsAdapter(private val context: Context, private val mainLayout: Cons
         }
     }
 
-    override fun getItemCount() = Fishes.fishImages.size + 2
+    override fun getItemCount() = Photos.photoImages.size + 2
 
     sealed
 

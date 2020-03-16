@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //bottom_nav.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
-        //bottom_nav.selectedItemId = R.id.navigation_home
+        bottom_nav.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
+        bottom_nav.selectedItemId = R.id.navigation_home
 
         recyclerview_front.apply {
             adapter = PhotosAdapter(this@MainActivity, mainLayout)

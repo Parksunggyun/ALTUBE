@@ -10,8 +10,8 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/videoThumbnailImageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintDimensionRatio="W,1:2"
-        android:src="@drawable/fishing_icon_a_01"
+        app:layout_constraintDimensionRatio="2:1"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
@@ -29,8 +29,7 @@
             app:layout_constraintEnd_toStartOf="@id/videoDescriptionTxtView"
             android:layout_width="0dp"
             android:layout_height="72dp"
-            app:layout_constraintDimensionRatio="W,1:1"
-            android:src="@drawable/fishing_icon_a_01"
+            app:layout_constraintDimensionRatio="1:1"
             android:scaleType="centerInside"/>
 
         <androidx.appcompat.widget.AppCompatTextView

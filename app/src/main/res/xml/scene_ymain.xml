@@ -1,111 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <Transition
+            app:duration="250"
+            app:constraintSetEnd="@id/expanded"
+            app:constraintSetStart="@id/baseState"
+            app:motionInterpolator="linear"/>
+
 
     <Transition
-        motion:duration="250"
-        motion:constraintSetEnd="@id/expanded"
-        motion:constraintSetStart="@id/baseState"
-        motion:motionInterpolator="linear"/>
-
-    <Transition
-        motion:duration="250"
-        motion:constraintSetEnd="@id/collapsed"
-        motion:constraintSetStart="@id/expanded"
-        motion:motionInterpolator="linear">
+        app:constraintSetEnd="@id/collapsed"
+        app:constraintSetStart="@id/expanded"
+        app:duration="250"
+        app:motionInterpolator="linear">
 
         <OnSwipe
-            motion:dragDirection="dragDown"
-            motion:touchAnchorSide="bottom"
-            motion:touchAnchorId="@id/videoDetailLayout"/>
+            app:dragDirection="dragDown"
+            app:onTouchUp="autoComplete"
+            app:touchAnchorSide="bottom"
+            app:touchRegionId="@id/videoDetailLayout"
+            app:touchAnchorId="@id/videoDetailLayout" />
 
         <KeyFrameSet>
 
             <KeyPosition
-                motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@id/videoDetailLayout"
-                motion:percentWidth="0"/>
+                app:drawPath="path"
+                app:curveFit="linear"
+                app:framePosition="90"
+                app:motionTarget="@id/videoDetailLayout"
+                app:percentWidth="0" />
 
             <KeyPosition
-                motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@id/videoImage"
-                motion:percentWidth="0"
-                motion:percentX="0"/>
+                app:curveFit="linear"
+                app:framePosition="90"
+                app:motionTarget="@id/videoImage"
+                app:percentWidth="0"
+                app:percentX="0" />
 
             <KeyPosition
-                motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@id/playImage"
-                motion:percentWidth="0"
-                motion:percentX="0"/>
-
-            <KeyPosition
-                motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@id/clearImage"
-                motion:percentWidth="0"
-                motion:percentX="0"/>
-
-            <KeyPosition
-                motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@id/recyclerview_container"
-                motion:percentWidth="0"/>
+                app:curveFit="linear"
+                app:framePosition="90"
+                app:motionTarget="@id/recyclerview_container"
+                app:percentWidth="0" />
 
             <KeyAttribute
                 android:alpha="0"
-                motion:framePosition="75"
-                motion:motionTarget="@id/recommendListView"/>
+                app:framePosition="75"
+                app:motionTarget="@id/recommendListView" />
 
-            <KeyAttribute
-                android:alpha="0.10"
-                motion:framePosition="90"
-                motion:motionTarget="@id/clearImage"/>
-
-            <KeyAttribute
-                android:alpha="0.10"
-                motion:framePosition="90"
-                motion:motionTarget="@id/playImage"/>
 
         </KeyFrameSet>
 
     </Transition>
 
     <Transition
-        motion:duration="300"
-        motion:constraintSetEnd="@id/baseState"
-        motion:constraintSetStart="@id/collapsed"
-        motion:motionInterpolator="easeInOut">
-
-        <OnClick
-            motion:targetId="@id/clearImage"
-            motion:clickAction="transitionToEnd"/>
-
+        app:constraintSetEnd="@id/baseState"
+        app:constraintSetStart="@id/collapsed"
+        app:duration="300"
+        app:motionInterpolator="easeInOut">
     </Transition>
 
     <ConstraintSet android:id="@+id/baseState">
         <Constraint
             android:id="@id/detailVideoContainer"
-            android:background="#000000"
-            android:alpha="0"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="#000000" />
         <Constraint
             android:id="@id/page_container"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintBottom_toTopOf="@id/bottom_ynav"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_ynav"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@id/videoDetailLayout"
-            motion:layout_constraintTop_toBottomOf="@id/bottom_ynav"
-            android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="56dp"/>
-
+            android:layout_height="56dp"
+            android:background="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/bottom_ynav" />
 
         <Constraint
             android:id="@id/videoImage"
@@ -113,131 +88,94 @@
             android:layout_height="0dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            motion:layout_constraintDimensionRatio="H,1:2.5"
-            motion:layout_constraintTop_toTopOf="@id/videoDetailLayout"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-            motion:layout_constraintStart_toStartOf="@id/videoDetailLayout"/>
-
-        <Constraint
-            android:id="@id/playImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerInside"
-            motion:layout_constraintDimensionRatio="1:1"
-            android:src="@drawable/ic_play_arrow_black_32dp"
-            motion:layout_constraintEnd_toStartOf="@id/clearImage"
-            motion:layout_constraintTop_toTopOf="@id/videoDetailLayout"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"/>
-
-        <Constraint
-            android:id="@id/clearImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerInside"
-            motion:layout_constraintDimensionRatio="1:1"
-            android:src="@drawable/ic_clear_black_32dp"
-            motion:layout_constraintEnd_toEndOf="@id/videoDetailLayout"
-            motion:layout_constraintTop_toTopOf="@id/videoDetailLayout"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+            app:layout_constraintDimensionRatio="H,1:2.5"
+            app:layout_constraintStart_toStartOf="@id/videoDetailLayout"
+            app:layout_constraintTop_toTopOf="@id/videoDetailLayout" />
 
         <Constraint
             android:id="@id/recommendListView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:alpha="0"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-            motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+            app:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
 
 
         <Constraint
             android:id="@id/bottom_ynav"
-            android:background="@drawable/border_lgtgray"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:labelVisibilityMode="labeled"
-            motion:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
-            motion:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
-            motion:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
-            motion:itemIconTint="@color/colorGray"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            motion:menu="@menu/bottom_nav_menu"/>
-
-        <Constraint android:id="@id/playImage">
-            <PropertySet motion:alpha="0" android:visibility="invisible"/>
-        </Constraint>
-
-        <Constraint android:id="@id/clearImage">
-            <PropertySet motion:alpha="0" android:visibility="invisible"/>
-        </Constraint>
+            android:background="@drawable/border_lgtgray"
+            app:itemIconTint="@color/colorGray"
+            app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
+            app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
 
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/expanded">
         <Constraint
             android:id="@id/detailVideoContainer"
-            android:background="#000000"
-            android:alpha="0"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:alpha="1"
+            android:background="#000000" />
 
         <Constraint
             android:id="@id/videoDetailLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            motion:layout_constraintDimensionRatio="16:9"
-            motion:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@id/videoImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            motion:layout_constraintEnd_toEndOf="@id/videoDetailLayout"
-            motion:layout_constraintTop_toTopOf="@id/videoDetailLayout"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-            motion:layout_constraintStart_toStartOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+            app:layout_constraintEnd_toEndOf="@id/videoDetailLayout"
+            app:layout_constraintStart_toStartOf="@id/videoDetailLayout"
+            app:layout_constraintTop_toTopOf="@id/videoDetailLayout" />
 
         <Constraint
             android:id="@id/bottom_ynav"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?android:attr/windowBackground"
-            motion:layout_constraintTop_toBottomOf="parent"
-            motion:layout_constraintRight_toRightOf="parent"
-            motion:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
 
 
         <Constraint
             android:id="@id/recyclerview_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
 
         <Constraint
             android:id="@id/recommendListView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout">
-            <PropertySet motion:alpha="1" android:visibility="visible"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoDetailLayout">
+            <PropertySet
+                android:visibility="visible"
+                app:alpha="1" />
             <CustomAttribute
-                motion:attributeName="backgroundColor"
-                motion:customColorValue="@android:color/white"/>
-        </Constraint>
-
-
-        <Constraint android:id="@id/playImage">
-            <PropertySet motion:alpha="0" android:visibility="invisible"/>
-        </Constraint>
-
-        <Constraint android:id="@id/clearImage">
-            <PropertySet motion:alpha="0" android:visibility="invisible"/>
+                app:attributeName="backgroundColor"
+                app:customColorValue="@android:color/white" />
         </Constraint>
 
     </ConstraintSet>
@@ -245,10 +183,10 @@
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint
             android:id="@id/detailVideoContainer"
-            android:background="#000000"
-            android:alpha="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="#000000" />
 
         <Constraint
             android:id="@id/videoDetailLayout"
@@ -257,9 +195,10 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            motion:layout_constraintBottom_toTopOf="@id/bottom_ynav">
+            android:background="@drawable/border_lgtgray"
+            app:layout_constraintBottom_toTopOf="@id/bottom_ynav">
 
-            <PropertySet motion:alpha="1"/>
+            <PropertySet app:alpha="1" />
         </Constraint>
 
         <Constraint
@@ -268,54 +207,46 @@
             android:layout_height="0dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            motion:layout_constraintDimensionRatio="H,1:2.5"
-            motion:layout_constraintTop_toTopOf="@id/videoDetailLayout"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-            motion:layout_constraintStart_toStartOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+            app:layout_constraintDimensionRatio="H,1:2.5"
+            app:layout_constraintStart_toStartOf="@id/videoDetailLayout"
+            app:layout_constraintTop_toTopOf="@id/videoDetailLayout" >
+
+        </Constraint>
 
         <Constraint
             android:id="@id/bottom_nav"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:background="?android:attr/windowBackground"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintRight_toRightOf="parent"
-            motion:layout_constraintLeft_toLeftOf="parent"/>
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
         <Constraint
             android:id="@id/recyclerview_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:alpha="0"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            motion:layout_constraintBottom_toTopOf="@id/bottom_ynav"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout"/>
+            android:alpha="1"
+            app:layout_constraintBottom_toTopOf="@id/bottom_ynav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
 
         <Constraint
             android:id="@id/recommendListView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:alpha="0"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-            motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout"/>
+            app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
 
-
-
-        <Constraint android:id="@id/clearImage">
-            <PropertySet motion:alpha="1" android:visibility="visible"/>
-        </Constraint>
-
-        <Constraint android:id="@id/playImage">
-            <PropertySet motion:alpha="1" android:visibility="visible"/>
-        </Constraint>
     </ConstraintSet>
 
 

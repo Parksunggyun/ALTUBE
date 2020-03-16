@@ -12,8 +12,7 @@
         <OnSwipe
             motion:dragDirection="dragDown"
             motion:onTouchUp="autoComplete"
-            motion:touchAnchorSide="bottom"
-            motion:touchAnchorId="@id/top_image_container"/>
+            motion:touchRegionId="@id/top_image_container"/>
 
         <KeyFrameSet>
 

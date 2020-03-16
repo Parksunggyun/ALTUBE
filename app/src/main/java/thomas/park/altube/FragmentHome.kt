@@ -6,17 +6,26 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
+import thomas.park.altube.youtube.VideoInfo
 
 class FragmentHome : Fragment() {
+
+    companion object {
+        private val TAG = FragmentHome::class.java.simpleName
+    }
 
     var itemTouch = false
 
     lateinit var mainLayout : MotionLayout
+    lateinit var videoImage : ImageView
+    lateinit var photosAdapter: PhotosAdapter
 
 
     override fun onCreateView(
@@ -33,7 +42,7 @@ class FragmentHome : Fragment() {
         homeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             isNestedScrollingEnabled = false
-            adapter = FragmentHomeAdapter(context, Fishes)
+            adapter = FragmentHomeAdapter(context, Photos)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -53,7 +62,15 @@ class FragmentHome : Fragment() {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                     if(MotionEvent.ACTION_UP == e.action && itemTouch) {
                         Log.e("onIntercept", "trjegwl")
-                        mainLayout.transitionToState(R.id.expanded)
+                        val child = rv.findChildViewUnder(e.x, e.y)
+                        val pos = rv.getChildAdapterPosition(child!!)
+                        if(pos != -1) {
+                            Log.e(TAG, "pos = $pos")
+                            val txtView = child.findViewById(R.id.videoDescriptionTxtView) as AppCompatTextView
+                            photosAdapter.updateVideoInfo(VideoInfo(txtView.text.toString(), txtView.text.toString()))
+                            videoImage.setImageResource(Photos.photoImages[pos - 1])
+                            mainLayout.transitionToState(R.id.expanded)
+                        }
                     } else if(MotionEvent.ACTION_DOWN == e.action) {
                         itemTouch = true
                     }

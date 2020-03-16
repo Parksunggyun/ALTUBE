@@ -17,55 +17,74 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import thomas.park.altube.youtube.VideoInfo
 
 
-class PhotosAdapter(private val context : Context, private val mainLayout : MotionLayout) : RecyclerView.Adapter<PhotosAdapter.YouTubeDemoViewHolder>() {
+class PhotosAdapter(private val context: Context, private val mainLayout: MotionLayout) :
+    RecyclerView.Adapter<PhotosAdapter.YouTubeDemoViewHolder>() {
 
     companion object {
         val TAG = PhotosAdapter::class.java.simpleName
         var reverse = false
         var height = 0
+        var title = ""
+        var description = ""
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): YouTubeDemoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView = inflater.inflate(viewType, parent, false)
 
-        return when(viewType) {
-            R.layout.motion_24_recyclerview_expanded_text_header -> YouTubeDemoViewHolder.TextHeaderViewHolder(itemView)
-            R.layout.motion_24_recyclerview_expanded_text_description -> YouTubeDemoViewHolder.TextDescriptionViewHolder(itemView)
-            R.layout.motion_24_recyclerview_expanded_row -> YouTubeDemoViewHolder.FishRowViewHolder(itemView)
+        return when (viewType) {
+            R.layout.motion_24_recyclerview_expanded_text_header -> YouTubeDemoViewHolder.TextHeaderViewHolder(
+                itemView
+            )
+            R.layout.motion_24_recyclerview_expanded_text_description -> YouTubeDemoViewHolder.TextDescriptionViewHolder(
+                itemView
+            )
+            R.layout.motion_24_recyclerview_expanded_row -> YouTubeDemoViewHolder.FishRowViewHolder(
+                itemView
+            )
             else -> throw IllegalStateException("Unknown viewType $viewType")
         }
     }
 
+    fun updateVideoInfo(videoInfo: VideoInfo) {
+        title = videoInfo.videoTitle
+        description = videoInfo.videoDescription
+        notifyItemChanged(0)
+    }
+
     override fun onBindViewHolder(holder: YouTubeDemoViewHolder, position: Int) {
-        when(holder) {
+        when (holder) {
             is YouTubeDemoViewHolder.TextHeaderViewHolder -> {
                 Log.e("TextHeaderViewholder", "on bind view holder")
-                if(height <= 1) {
-                    holder.contentDescriptionTextView.viewTreeObserver.addOnGlobalLayoutListener(
-                        object : ViewTreeObserver.OnGlobalLayoutListener {
-                            override fun onGlobalLayout() {
-                                holder.contentDescriptionTextView.viewTreeObserver.removeOnGlobalLayoutListener(
-                                    this
-                                )
-                                height = holder.contentDescriptionTextView.height
-                                height = holder.contentDescriptionTextView.measuredHeight
-                                Log.e("TextHeaderViewholder", "$height")
-                                holder.contentDescriptionTextView.visibility = View.GONE
-                            }
-                        })
-                }
+                holder.contentDescriptionTextView.viewTreeObserver.addOnGlobalLayoutListener(
+                    object : ViewTreeObserver.OnGlobalLayoutListener {
+                        override fun onGlobalLayout() {
+                            holder.contentDescriptionTextView.viewTreeObserver.removeOnGlobalLayoutListener(
+                                this
+                            )
+                            height = holder.contentDescriptionTextView.height
+                            height = holder.contentDescriptionTextView.measuredHeight
+                            Log.e("TextHeaderViewholder", "$height")
+                            holder.contentDescriptionTextView.visibility = View.GONE
+                        }
+                    })
+
                 holder.textDescriptionTextView.apply {
-                    text = "입력하는데로 제목을 입력할 수 있습니다."
+                    text = title
+                }
+                holder.descriptionTextView.apply {
+                    text = description
                 }
 
                 holder.layoutDescriptionConstraintLayout.setOnClickListener {
                     reverse = !reverse
-                    val animation : Animation
-                    if(!reverse) {
-                        animation = AnimationUtils.loadAnimation(context, R.anim.rotation_arrow_reverse)
+                    val animation: Animation
+                    if (!reverse) {
+                        animation =
+                            AnimationUtils.loadAnimation(context, R.anim.rotation_arrow_reverse)
                         collapse(holder.contentDescriptionTextView)
                         //changeVisibility(holder.contentDescriptionLayout, false)
                     } else {
@@ -94,13 +113,14 @@ class PhotosAdapter(private val context : Context, private val mainLayout : Moti
                 }
 
             }
-            is YouTubeDemoViewHolder.TextDescriptionViewHolder -> {}
+            is YouTubeDemoViewHolder.TextDescriptionViewHolder -> {
+            }
             is YouTubeDemoViewHolder.FishRowViewHolder -> {
                 val imagePosition = position - 2
                 holder.textView.text =
                     holder.textView.resources.getString(R.string.fish_n, imagePosition)
                 Glide.with(context)
-                    .load(Fishes.fishImages[imagePosition])
+                    .load(Photos.photoImages[imagePosition])
                     .into(holder.imageView)
             }
         }
@@ -108,16 +128,15 @@ class PhotosAdapter(private val context : Context, private val mainLayout : Moti
 
     private fun expand(view: View) {
         val targetHeight = height
-        Log.e(TAG, "targetHeight = $targetHeight")
 
         view.layoutParams.height = 1
         view.visibility = View.VISIBLE
         val animation = object : Animation() {
 
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                view.layoutParams.height = if(interpolatedTime == 1.0f) ConstraintLayout.LayoutParams.WRAP_CONTENT
-                                            else ((targetHeight * interpolatedTime)).toInt()
-                Log.e(TAG, "expand = ${((targetHeight * interpolatedTime)).toInt()}")
+                view.layoutParams.height =
+                    if (interpolatedTime == 1.0f) ConstraintLayout.LayoutParams.WRAP_CONTENT
+                    else ((targetHeight * interpolatedTime)).toInt()
                 view.requestLayout()
             }
 
@@ -133,13 +152,13 @@ class PhotosAdapter(private val context : Context, private val mainLayout : Moti
 
     private fun collapse(view: View) {
         val initialHeight = view.measuredHeight
-        Log.e(TAG, "initialHeight = $initialHeight")
 
         val animation = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                if(interpolatedTime.toInt() == 1) view.visibility = View.GONE
+                if (interpolatedTime.toInt() == 1) view.visibility = View.GONE
                 else {
-                    view.layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                    view.layoutParams.height =
+                        initialHeight - (initialHeight * interpolatedTime).toInt()
                     view.requestLayout()
                 }
             }
@@ -167,12 +186,14 @@ class PhotosAdapter(private val context : Context, private val mainLayout : Moti
                     return true
                 }
                 R.id.header_share -> {
-                    Snackbar.make(mainLayout, "공유하기 기능은 추후에 추가할 예정입니다", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mainLayout, "공유하기 기능은 추후에 추가할 예정입니다", Snackbar.LENGTH_SHORT)
+                        .show()
 
                     return true
                 }
                 R.id.header_file_download -> {
-                    Snackbar.make(mainLayout, "갤러리에 저장 기능은 추후에 추가할 예정입니다", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mainLayout, "갤러리에 저장 기능은 추후에 추가할 예정입니다", Snackbar.LENGTH_SHORT)
+                        .show()
                     return true
                 }
             }
@@ -181,30 +202,37 @@ class PhotosAdapter(private val context : Context, private val mainLayout : Moti
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(position) {
+        return when (position) {
             0 -> R.layout.motion_24_recyclerview_expanded_text_header
             1 -> R.layout.motion_24_recyclerview_expanded_text_description
             else -> R.layout.motion_24_recyclerview_expanded_row
         }
     }
 
-    override fun getItemCount() = Fishes.fishImages.size + 2
+    override fun getItemCount() = Photos.photoImages.size + 2
 
-    sealed class YouTubeDemoViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    sealed class YouTubeDemoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         class TextHeaderViewHolder(
             itemView: View
         ) : YouTubeDemoViewHolder(itemView) {
 
-            val layoutDescriptionConstraintLayout = itemView.findViewById(R.id.layout_description) as ConstraintLayout
+            val layoutDescriptionConstraintLayout =
+                itemView.findViewById(R.id.layout_description) as ConstraintLayout
 
-            val textDescriptionTextView = itemView.findViewById(R.id.text_description) as AppCompatTextView
+            val textDescriptionTextView =
+                itemView.findViewById(R.id.text_description) as AppCompatTextView
 
-            val imageDescriptionImageView = itemView.findViewById(R.id.image_description) as AppCompatImageView
+            val imageDescriptionImageView =
+                itemView.findViewById(R.id.image_description) as AppCompatImageView
 
             val headerNav = itemView.findViewById(R.id.header_nav) as BottomNavigationView
 
-            val contentDescriptionTextView = itemView.findViewById(R.id.content_description) as ConstraintLayout
+            val contentDescriptionTextView =
+                itemView.findViewById(R.id.content_description) as ConstraintLayout
+
+            val descriptionTextView =
+                itemView.findViewById(R.id.content_description_textview) as AppCompatTextView
 /*            val thumbUpLayout = itemView.findViewById(R.id.layout_thumb_up) as ConstraintLayout
             val thumbDownLayout = itemView.findViewById(R.id.layout_thumb_down) as ConstraintLayout
             val shareLayout = itemView.findViewById(R.id.layout_share) as ConstraintLayout

@@ -11,8 +11,8 @@ import kotlin.math.abs
 open class OnSwipeTouchListener(context: Context, mainLayout: MotionLayout) : View.OnTouchListener {
 
     companion object {
-        const val SWIPE_THRESHOLD = 100
-        const val SWIPE_VELOCITY_THRESHOLD = 100
+        const val SWIPE_THRESHOLD = 50
+        const val SWIPE_VELOCITY_THRESHOLD = 50
     }
 
     private var gestureDetector: GestureDetector
@@ -36,12 +36,12 @@ open class OnSwipeTouchListener(context: Context, mainLayout: MotionLayout) : Vi
 
     fun onSwipeTop() {
         Log.e("onSwipeTop", "onSwipeTop")
-        mainLayout.transitionToStart()
+        mainLayout.transitionToState(R.id.expanded)
     }
 
     fun onSwipeBottom() {
         Log.e("onSwipeBottom", "onSwipeBottom")
-        mainLayout.transitionToEnd()
+        mainLayout.transitionToState(R.id.collapsed)
     }
 
     inner class GestureListener : GestureDetector.SimpleOnGestureListener() {

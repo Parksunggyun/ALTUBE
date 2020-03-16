@@ -3,11 +3,16 @@ package thomas.park.altube.youtube
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_ymain.*
+import kotlinx.android.synthetic.main.activity_ymain.ymainLayout
 import thomas.park.altube.*
 
 class YMainActivity : AppCompatActivity() {
@@ -15,6 +20,10 @@ class YMainActivity : AppCompatActivity() {
     companion object {
         val TAG = YMainActivity::class.java.simpleName
     }
+
+    private var isPlaying = false
+    private var alpha = 0.0f
+    lateinit var photosAdapter : PhotosAdapter
 
     private val fragmentHome = FragmentHome()
     private val fragmentHot = FragmentHot()
@@ -27,20 +36,98 @@ class YMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ymain)
 
+
+
+
+        photosAdapter = PhotosAdapter(this@YMainActivity, ymainLayout)
+        fragmentHome.photosAdapter = photosAdapter
+        recommendListView.apply {
+            adapter = photosAdapter
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(this@YMainActivity)
+        }
         bottom_ynav.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
         bottom_ynav.selectedItemId = R.id.navigation_home
 
-        recommendListView.apply {
-            adapter = PhotosAdapter(this@YMainActivity, ymainLayout)
-            layoutManager = LinearLayoutManager(this@YMainActivity)
-        }
+        val ymainLayout = findViewById<MotionLayout>(R.id.ymainLayout)
 
-        videoDetailLayout.setOnClickListener {
-            if(ymainLayout.currentState == R.id.collapsed) {
+
+        videoDetailLayout.setOnTouchListener { _, motionEvent ->
+            if(motionEvent.action == MotionEvent.ACTION_UP) {
                 ymainLayout.transitionToState(R.id.expanded)
             }
+            false
         }
 
+        ymainLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+                Log.e(TAG, "onTransitionTrigger")
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                fromState: Int,
+                toState: Int,
+                progress: Float
+            ) {
+                if (toState == R.id.collapsed) {
+                    if (progress >= 0.9) {
+                        alpha = (progress - 0.9f) + 0.1f
+                        clearImage.alpha = alpha
+                        playImage.alpha = alpha
+                    }
+                }
+                if(progress == 1.0f) {
+                    clearImage.alphaVisibility(1.0f, View.VISIBLE)
+                    playImage.alphaVisibility(1.0f, View.VISIBLE)
+                }
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentState: Int) {
+                Log.e(TAG, "onTransitionCompleted")
+                if (motionLayout.startState == R.id.baseState) {
+                    motionLayout.setTransition(R.id.expanded, R.id.collapsed)
+                    motionLayout.progress = 0.0f
+                }
+                if (currentState == R.id.collapsed) {
+                    clearImage.alphaVisibility(1.0f, View.VISIBLE)
+                    playImage.alphaVisibility(1.0f, View.VISIBLE)
+                    playImage.setOnClickListener(this@YMainActivity::clickEvent)
+                    clearImage.setOnClickListener(this@YMainActivity::clickEvent)
+                } else {
+                    clearImage.alphaVisibility(0.0f, View.INVISIBLE)
+                    playImage.alphaVisibility(0.0f, View.INVISIBLE)
+                    playImage.setOnClickListener(null)
+                    clearImage.setOnClickListener(null)
+                }
+            }
+        })
+    }
+
+
+    fun ImageView.alphaVisibility(alpha: Float, visibility: Int) {
+        this.alpha = alpha
+        this.visibility = visibility
+    }
+
+    fun clickEvent(view: View) {
+        when (view.id) {
+            R.id.clearImage -> {
+                ymainLayout.transitionToState(R.id.baseState)
+            }
+            R.id.playImage -> {
+                Log.e(TAG, "playImage = $isPlaying")
+                if (isPlaying) {
+                    playImage.setImageResource(R.drawable.ic_play_arrow_black_32dp)
+                } else {
+                    playImage.setImageResource(R.drawable.ic_pause_black_24dp)
+                }
+                isPlaying = !isPlaying
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -60,6 +147,7 @@ class YMainActivity : AppCompatActivity() {
                 R.id.navigation_home -> {
                     item.setIcon(R.drawable.ic_home_red_24dp)
                     fragmentHome.mainLayout = ymainLayout
+                    fragmentHome.videoImage = videoImage
                     transaction.replace(R.id.page_container, fragmentHome)
                         .commitAllowingStateLoss()
                 }

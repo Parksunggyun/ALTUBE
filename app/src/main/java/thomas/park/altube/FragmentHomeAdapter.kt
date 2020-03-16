@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import java.lang.IllegalStateException
 
-class FragmentHomeAdapter(private val context: Context, private val fishes: Fishes) :
+class FragmentHomeAdapter(private val context: Context, private val photos: Photos) :
     RecyclerView.Adapter<FragmentHomeAdapter.HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -30,9 +30,9 @@ class FragmentHomeAdapter(private val context: Context, private val fishes: Fish
             }
 
             is HomeViewHolder.HomeContentsViewHolder -> {
-                Glide.with(context).load(fishes.fishImages[position - 1]).into(holder.thumbnail)
-                Glide.with(context).load(fishes.fishImages[position - 1]).into(holder.uploaderImg)
-                holder.description.text = fishes.fishNames[position - 1]
+                Glide.with(context).load(photos.photoImages[position - 1]).into(holder.thumbnail)
+                Glide.with(context).load(photos.photoImages[position - 1]).into(holder.uploaderImg)
+                holder.description.text = photos.photoNames[position - 1]
             }
         }
 
@@ -45,7 +45,7 @@ class FragmentHomeAdapter(private val context: Context, private val fishes: Fish
         }
     }
 
-    override fun getItemCount() = fishes.fishNames.size + 1
+    override fun getItemCount() = Photos.photoImages.size + 1
 
 
 
