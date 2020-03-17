@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
@@ -26,6 +27,8 @@ class FragmentHome : Fragment() {
     lateinit var mainLayout : MotionLayout
     lateinit var videoImage : ImageView
     lateinit var photosAdapter: PhotosAdapter
+    lateinit var videoTitle: TextView
+    lateinit var videoUploader: TextView
 
 
     override fun onCreateView(
@@ -66,9 +69,12 @@ class FragmentHome : Fragment() {
                         val pos = rv.getChildAdapterPosition(child!!)
                         if(pos != -1) {
                             Log.e(TAG, "pos = $pos")
+                            val uploader = child.findViewById(R.id.videoUploaderTxtView) as AppCompatTextView
                             val txtView = child.findViewById(R.id.videoDescriptionTxtView) as AppCompatTextView
-                            photosAdapter.updateVideoInfo(VideoInfo(txtView.text.toString(), txtView.text.toString()))
+                            photosAdapter.updateVideoInfo(VideoInfo(uploader.text.toString(), txtView.text.toString(), txtView.text.toString()))
                             videoImage.setImageResource(Photos.photoImages[pos - 1])
+                            videoTitle.text = Photos.photoNames[pos - 1]
+                            videoUploader.text = uploader.text.toString()
                             mainLayout.transitionToState(R.id.expanded)
                         }
                     } else if(MotionEvent.ACTION_DOWN == e.action) {

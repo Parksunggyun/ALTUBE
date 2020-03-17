@@ -23,7 +23,15 @@ class YMainActivity : AppCompatActivity() {
 
     private var isPlaying = false
     private var alpha = 0.0f
-    lateinit var photosAdapter : PhotosAdapter
+    lateinit var photosAdapter: PhotosAdapter
+
+    private var X = 0.0f
+    private var Y = 0.0f
+    private var point1 = 0.0f
+    private var point2 = 0.0f
+    private var point3 = 0.0f
+    private var point4 = 0.0f
+
 
     private val fragmentHome = FragmentHome()
     private val fragmentHot = FragmentHot()
@@ -36,9 +44,6 @@ class YMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ymain)
 
-
-
-
         photosAdapter = PhotosAdapter(this@YMainActivity, ymainLayout)
         fragmentHome.photosAdapter = photosAdapter
         recommendListView.apply {
@@ -46,6 +51,7 @@ class YMainActivity : AppCompatActivity() {
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(this@YMainActivity)
         }
+
         bottom_ynav.setOnNavigationItemSelectedListener(MenuItemSelectedListener())
         bottom_ynav.selectedItemId = R.id.navigation_home
 
@@ -53,11 +59,13 @@ class YMainActivity : AppCompatActivity() {
 
 
         videoDetailLayout.setOnTouchListener { _, motionEvent ->
-            if(motionEvent.action == MotionEvent.ACTION_UP) {
+            if (motionEvent.action == MotionEvent.ACTION_UP) {
                 ymainLayout.transitionToState(R.id.expanded)
             }
             false
         }
+        playImage.setOnTouchListener(this@YMainActivity::touchEvent)
+        clearImage.setOnTouchListener(this@YMainActivity::touchEvent)
 
         ymainLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
@@ -78,56 +86,76 @@ class YMainActivity : AppCompatActivity() {
                         alpha = (progress - 0.9f) + 0.1f
                         clearImage.alpha = alpha
                         playImage.alpha = alpha
+                        videoTitle.alpha = alpha
+                        videoUploaderName.alpha = alpha
                     }
                 }
-                if(progress == 1.0f) {
-                    clearImage.alphaVisibility(1.0f, View.VISIBLE)
-                    playImage.alphaVisibility(1.0f, View.VISIBLE)
+                if (progress == 1.0f) {
+                    visible(1.0f, View.VISIBLE)
                 }
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentState: Int) {
                 Log.e(TAG, "onTransitionCompleted")
+
                 if (motionLayout.startState == R.id.baseState) {
                     motionLayout.setTransition(R.id.expanded, R.id.collapsed)
                     motionLayout.progress = 0.0f
                 }
                 if (currentState == R.id.collapsed) {
-                    clearImage.alphaVisibility(1.0f, View.VISIBLE)
-                    playImage.alphaVisibility(1.0f, View.VISIBLE)
-                    playImage.setOnClickListener(this@YMainActivity::clickEvent)
-                    clearImage.setOnClickListener(this@YMainActivity::clickEvent)
+                    emptySpace.visibility = View.VISIBLE
+                    visible(1.0f, View.VISIBLE)
                 } else {
-                    clearImage.alphaVisibility(0.0f, View.INVISIBLE)
-                    playImage.alphaVisibility(0.0f, View.INVISIBLE)
-                    playImage.setOnClickListener(null)
-                    clearImage.setOnClickListener(null)
+                    emptySpace.visibility = View.GONE
+                    visible(0.0f, View.INVISIBLE)
                 }
             }
         })
     }
 
+    fun visible(alpha: Float, visibility: Int) {
+        clearImage.alphaVisibility(alpha, visibility)
+        playImage.alphaVisibility(alpha, visibility)
+        videoTitle.alphaVisibility(alpha, visibility)
+        videoUploaderName.alphaVisibility(alpha, visibility)
+    }
 
-    fun ImageView.alphaVisibility(alpha: Float, visibility: Int) {
+
+    fun View.alphaVisibility(alpha: Float, visibility: Int) {
         this.alpha = alpha
         this.visibility = visibility
     }
 
-    fun clickEvent(view: View) {
-        when (view.id) {
-            R.id.clearImage -> {
-                ymainLayout.transitionToState(R.id.baseState)
+    private fun touchEvent(view: View, evt: MotionEvent): Boolean {
+        when (evt.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                point1 = view.x
+                point2 = view.x + view.width
+                point3 = view.y
+                point4 = view.y + view.height
+                return true
             }
-            R.id.playImage -> {
-                Log.e(TAG, "playImage = $isPlaying")
-                if (isPlaying) {
-                    playImage.setImageResource(R.drawable.ic_play_arrow_black_32dp)
-                } else {
-                    playImage.setImageResource(R.drawable.ic_pause_black_24dp)
+            MotionEvent.ACTION_UP -> {
+                X = evt.x + point1
+                Y = evt.y + point3
+                if (X in point1..point2 && Y in point3..point4) {
+                    when (view.id) {
+                        R.id.clearImage -> ymainLayout.transitionToState(R.id.baseState)
+                        R.id.playImage -> {
+                            if (isPlaying) {
+                                playImage.setImageResource(R.drawable.ic_play_arrow_black_32dp)
+                            } else {
+                                playImage.setImageResource(R.drawable.ic_pause_black_24dp)
+                            }
+                            isPlaying = !isPlaying
+                        }
+                    }
                 }
-                isPlaying = !isPlaying
+                return false
             }
         }
+
+        return view.performClick()
     }
 
     override fun onBackPressed() {
@@ -148,6 +176,8 @@ class YMainActivity : AppCompatActivity() {
                     item.setIcon(R.drawable.ic_home_red_24dp)
                     fragmentHome.mainLayout = ymainLayout
                     fragmentHome.videoImage = videoImage
+                    fragmentHome.videoTitle = videoTitle
+                    fragmentHome.videoUploader = videoUploaderName
                     transaction.replace(R.id.page_container, fragmentHome)
                         .commitAllowingStateLoss()
                 }

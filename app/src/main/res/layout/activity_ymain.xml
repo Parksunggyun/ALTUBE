@@ -15,7 +15,7 @@
         android:id="@+id/page_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_ynav"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
@@ -24,49 +24,84 @@
         android:id="@+id/detailVideoContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="1"
-        android:background="#00000000" />
+        android:alpha="0"
+        android:background="#000000" />
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/videoDetailLayout"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@android:color/white"
+        android:layout_height="54dp"
+        android:background="@drawable/border_lgtgray"
         app:layout_constraintTop_toBottomOf="@id/bottom_ynav">
+
+
+        <Space
+            android:id="@+id/emptySpace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginBottom="-5dp"
+            android:background="?android:windowBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,1:2.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/videoTitle"
+            app:layout_constraintStart_toEndOf="@id/emptySpace"
+            app:layout_constraintEnd_toStartOf="@id/playImage"
+            app:layout_constraintTop_toTopOf="parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/videoUploaderName"
+            app:layout_constraintTop_toBottomOf="@id/videoTitle"
+            app:layout_constraintStart_toEndOf="@id/emptySpace"
+            app:layout_constraintEnd_toStartOf="@id/playImage"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
 
         <ImageButton
             android:id="@+id/playImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:alpha="0"
-            android:visibility="invisible"
             android:background="@drawable/ripple_rect"
             android:src="@drawable/ic_play_arrow_black_32dp"
-            android:layout_gravity="center|end"/>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/clearImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/clearImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:alpha="0"
-            android:visibility="invisible"
             android:background="@drawable/ripple_rect"
             android:src="@drawable/ic_clear_black_32dp"
-            android:layout_gravity="center|end"/>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/videoImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="?android:windowBackground"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/photo"
         app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
         app:layout_constraintDimensionRatio="H,1:2.5"
         app:layout_constraintStart_toStartOf="@id/videoDetailLayout"

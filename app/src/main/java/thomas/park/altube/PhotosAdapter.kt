@@ -27,6 +27,7 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
         val TAG = PhotosAdapter::class.java.simpleName
         var reverse = false
         var height = 0
+        var uploaderName = ""
         var title = ""
         var description = ""
     }
@@ -50,6 +51,7 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
     }
 
     fun updateVideoInfo(videoInfo: VideoInfo) {
+        uploaderName = videoInfo.videoUploader
         title = videoInfo.videoTitle
         description = videoInfo.videoDescription
         notifyItemChanged(0)
@@ -77,6 +79,9 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
                 }
                 holder.descriptionTextView.apply {
                     text = description
+                }
+                holder.uploaderName.apply {
+                    text = uploaderName
                 }
 
                 holder.layoutDescriptionConstraintLayout.setOnClickListener {
@@ -233,6 +238,9 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
 
             val descriptionTextView =
                 itemView.findViewById(R.id.content_description_textview) as AppCompatTextView
+
+            val uploaderName =
+                itemView.findViewById(R.id.uploaderName) as AppCompatTextView
 /*            val thumbUpLayout = itemView.findViewById(R.id.layout_thumb_up) as ConstraintLayout
             val thumbDownLayout = itemView.findViewById(R.id.layout_thumb_down) as ConstraintLayout
             val shareLayout = itemView.findViewById(R.id.layout_share) as ConstraintLayout

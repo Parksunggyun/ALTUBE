@@ -33,6 +33,7 @@ class FragmentHomeAdapter(private val context: Context, private val photos: Phot
                 Glide.with(context).load(photos.photoImages[position - 1]).into(holder.thumbnail)
                 Glide.with(context).load(photos.photoImages[position - 1]).into(holder.uploaderImg)
                 holder.description.text = photos.photoNames[position - 1]
+                holder.uploader.text = photos.photoUploader[position - 1]
             }
         }
 
@@ -59,6 +60,7 @@ class FragmentHomeAdapter(private val context: Context, private val photos: Phot
 
             val thumbnail = itemView.findViewById(R.id.videoThumbnailImageView) as AppCompatImageView
             val description = itemView.findViewById(R.id.videoDescriptionTxtView) as AppCompatTextView
+            val uploader = itemView.findViewById(R.id.videoUploaderTxtView) as AppCompatTextView
             val uploaderImg = itemView.findViewById(R.id.uploaderImgView) as AppCompatImageView
         }
 
