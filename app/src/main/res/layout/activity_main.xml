@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/photo"
+        android:src="@drawable/video_01_moment"
         app:layout_constraintTop_toTopOf="@id/top_image_container"
         app:layout_constraintBottom_toBottomOf="@id/top_image_container"
         app:layout_constraintStart_toStartOf="@id/top_image_container"

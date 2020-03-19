@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:background="@drawable/ripple_rect"
+        android:background="@drawable/ripple_rect_gray"
         android:id="@+id/videoThumbnailImageView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintDimensionRatio="2:1"
@@ -27,12 +27,12 @@
             android:id="@+id/uploaderImgView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@id/videoDescriptionTxtView"
             android:layout_width="0dp"
-            android:layout_height="72dp"
+            android:layout_height="48dp"
+            android:layout_margin="12dp"
             app:layout_constraintDimensionRatio="1:1"
-            android:scaleType="centerInside"/>
+            android:scaleType="fitXY"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/videoDescriptionTxtView"
@@ -52,7 +52,7 @@
             android:padding="4dp"
             android:textColor="@color/colorGray"
             app:layout_constraintEnd_toStartOf="@id/menuImgView"
-            app:layout_constraintStart_toEndOf="@id/uploaderImgView"
+            app:layout_constraintStart_toStartOf="@id/videoDescriptionTxtView"
             app:layout_constraintTop_toBottomOf="@id/videoDescriptionTxtView"
             tools:text="asddjdsfmkjwekljflwijfdkjfwlkejf;lakjsd;flkj;lkj;ajsd;fjkjl;"
             android:ellipsize="end"

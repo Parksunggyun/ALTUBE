@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@id/expanded"
+        motion:constraintSetStart="@id/baseState"
+        motion:duration="250"
+        motion:motionInterpolator="linear" />
+
+
+    <Transition
+        motion:constraintSetEnd="@id/collapsed"
+        motion:constraintSetStart="@id/expanded"
+        motion:duration="250"
+        motion:motionInterpolator="linear">
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/baseState"/>
+
+    <ConstraintSet android:id="@+id/expanded"/>
+
+    <ConstraintSet android:id="@+id/collapsed"/>
+
+
+</MotionScene>

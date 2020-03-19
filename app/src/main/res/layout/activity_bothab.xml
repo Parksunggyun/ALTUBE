@@ -18,7 +18,7 @@
 
     <ImageView
         android:id="@+id/photo"
-        android:src="@drawable/photo"
+        android:src="@drawable/video_01_moment"
         android:scaleType="centerCrop"
         android:layout_width="0dp"
         android:layout_height="0dp"

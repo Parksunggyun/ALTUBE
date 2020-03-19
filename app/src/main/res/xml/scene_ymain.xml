@@ -6,7 +6,7 @@
         motion:constraintSetEnd="@id/expanded"
         motion:constraintSetStart="@id/baseState"
         motion:duration="250"
-        motion:motionInterpolator="linear"/>
+        motion:motionInterpolator="linear" />
 
 
     <Transition
@@ -22,8 +22,8 @@
             motion:touchAnchorSide="bottom"
             motion:touchRegionId="@id/videoDetailLayout" />
 
-        <KeyFrameSet>
 
+        <KeyFrameSet>
             <KeyPosition
                 motion:curveFit="linear"
                 motion:framePosition="90"
@@ -119,8 +119,7 @@
             motion:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
 
 
-        <Constraint
-            android:id="@id/bottom_ynav"/>
+        <Constraint android:id="@id/bottom_ynav" />
 
     </ConstraintSet>
 
@@ -153,8 +152,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?android:attr/windowBackground"
-            motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="parent" />
 
 

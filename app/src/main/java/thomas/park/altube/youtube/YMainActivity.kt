@@ -5,15 +5,17 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionScene
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Transition
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_ymain.*
 import kotlinx.android.synthetic.main.activity_ymain.ymainLayout
 import thomas.park.altube.*
+import kotlin.math.abs
 
 class YMainActivity : AppCompatActivity() {
 
@@ -25,8 +27,8 @@ class YMainActivity : AppCompatActivity() {
     private var alpha = 0.0f
     lateinit var photosAdapter: PhotosAdapter
 
-    private var X = 0.0f
-    private var Y = 0.0f
+    private var x = 0.0f
+    private var y = 0.0f
     private var point1 = 0.0f
     private var point2 = 0.0f
     private var point3 = 0.0f
@@ -57,15 +59,10 @@ class YMainActivity : AppCompatActivity() {
 
         val ymainLayout = findViewById<MotionLayout>(R.id.ymainLayout)
 
-
-        videoDetailLayout.setOnTouchListener { _, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                ymainLayout.transitionToState(R.id.expanded)
-            }
-            false
-        }
         playImage.setOnTouchListener(this@YMainActivity::touchEvent)
         clearImage.setOnTouchListener(this@YMainActivity::touchEvent)
+        videoImage.setOnTouchListener(this@YMainActivity::touchEvent)
+
 
         ymainLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
@@ -73,6 +70,7 @@ class YMainActivity : AppCompatActivity() {
             }
 
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+                Log.e(TAG, "onTransitionStarted")
             }
 
             override fun onTransitionChange(
@@ -97,20 +95,23 @@ class YMainActivity : AppCompatActivity() {
 
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentState: Int) {
                 Log.e(TAG, "onTransitionCompleted")
-
+                motionLayout.clearFocus()
                 if (motionLayout.startState == R.id.baseState) {
                     motionLayout.setTransition(R.id.expanded, R.id.collapsed)
                     motionLayout.progress = 0.0f
                 }
                 if (currentState == R.id.collapsed) {
+
                     emptySpace.visibility = View.VISIBLE
                     visible(1.0f, View.VISIBLE)
+                    videoImage.coverVisible(View.INVISIBLE)
                 } else {
                     emptySpace.visibility = View.GONE
                     visible(0.0f, View.INVISIBLE)
                 }
             }
         })
+
     }
 
     fun visible(alpha: Float, visibility: Int) {
@@ -121,12 +122,13 @@ class YMainActivity : AppCompatActivity() {
     }
 
 
-    fun View.alphaVisibility(alpha: Float, visibility: Int) {
+    private fun View.alphaVisibility(alpha: Float, visibility: Int) {
         this.alpha = alpha
         this.visibility = visibility
     }
 
     private fun touchEvent(view: View, evt: MotionEvent): Boolean {
+        Log.e(TAG, "touchEvent")
         when (evt.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
                 point1 = view.x
@@ -135,19 +137,16 @@ class YMainActivity : AppCompatActivity() {
                 point4 = view.y + view.height
                 return true
             }
+            MotionEvent.ACTION_MOVE -> {
+            }
             MotionEvent.ACTION_UP -> {
-                X = evt.x + point1
-                Y = evt.y + point3
-                if (X in point1..point2 && Y in point3..point4) {
+                x = evt.x + point1
+                y = evt.y + point3
+                if (x in point1..point2 && y in point3..point4) {
                     when (view.id) {
-                        R.id.clearImage -> ymainLayout.transitionToState(R.id.baseState)
-                        R.id.playImage -> {
-                            if (isPlaying) {
-                                playImage.setImageResource(R.drawable.ic_play_arrow_black_32dp)
-                            } else {
-                                playImage.setImageResource(R.drawable.ic_pause_black_24dp)
-                            }
-                            isPlaying = !isPlaying
+                        R.id.clearImage -> {
+                            ymainLayout.transitionToState(R.id.baseState)
+                            videoImage.stop()
                         }
                     }
                 }
@@ -178,6 +177,7 @@ class YMainActivity : AppCompatActivity() {
                     fragmentHome.videoImage = videoImage
                     fragmentHome.videoTitle = videoTitle
                     fragmentHome.videoUploader = videoUploaderName
+                    fragmentHome.playImage = playImage
                     transaction.replace(R.id.page_container, fragmentHome)
                         .commitAllowingStateLoss()
                 }

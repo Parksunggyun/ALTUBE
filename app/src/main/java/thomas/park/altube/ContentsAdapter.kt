@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import thomas.park.altube.youtube.Videos
 
 class ContentsAdapter(private val context: Context, private val mainLayout: ConstraintLayout) :
     RecyclerView.Adapter<ContentsAdapter.YouTubeDemoViewHolder>() {
@@ -23,7 +24,7 @@ class ContentsAdapter(private val context: Context, private val mainLayout: Cons
         val itemView = inflater.inflate(viewType, parent, false)
 
         return when (viewType) {
-            R.layout.motion_24_recyclerview_expanded_row -> YouTubeDemoViewHolder.FishRowViewHolder(
+            R.layout.item_row -> YouTubeDemoViewHolder.FishRowViewHolder(
                 itemView
             )
             else -> throw IllegalStateException("Unknown viewType $viewType")
@@ -37,7 +38,7 @@ class ContentsAdapter(private val context: Context, private val mainLayout: Cons
                 holder.textView.text =
                     holder.textView.resources.getString(R.string.fish_n, imagePosition)
                 Glide.with(context)
-                    .load(Photos.photoImages[imagePosition])
+                    .load(Videos.thumbnail[imagePosition])
                     .into(holder.imageView)
             }
         }
@@ -46,13 +47,13 @@ class ContentsAdapter(private val context: Context, private val mainLayout: Cons
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> R.layout.motion_24_recyclerview_expanded_text_header
-            1 -> R.layout.motion_24_recyclerview_expanded_text_description
-            else -> R.layout.motion_24_recyclerview_expanded_row
+            0 -> R.layout.item_header
+            1 -> R.layout.item_description
+            else -> R.layout.item_row
         }
     }
 
-    override fun getItemCount() = Photos.photoImages.size + 2
+    override fun getItemCount() = Videos.thumbnail.size + 2
 
     sealed
 

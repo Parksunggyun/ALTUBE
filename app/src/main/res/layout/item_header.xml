@@ -14,8 +14,8 @@
         android:background="?attr/selectableItemBackground"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,11 +23,12 @@
             android:id="@+id/text_description"
             style="@style/TextAppearance.AppCompat"
             android:gravity="center|start"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="@string/cat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_description"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -64,6 +65,8 @@
         android:id="@+id/uploaderLayout"
         app:layout_constraintTop_toBottomOf="@id/header_nav"
         android:layout_width="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:layout_height="48dp">
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/uploaderThumbnail"
@@ -71,7 +74,7 @@
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintDimensionRatio="1:1"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_keyboard_arrow_up_black_24dp"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/uploaderName"
@@ -98,6 +101,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/content_description_textview"
             app:layout_constraintTop_toTopOf="parent"
+            android:padding="8dp"
             android:text="@string/lorem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

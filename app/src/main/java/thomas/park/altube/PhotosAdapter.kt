@@ -1,13 +1,14 @@
 package thomas.park.altube
 
 import android.content.Context
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.Transformation
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import thomas.park.altube.youtube.VideoInfo
+import thomas.park.altube.youtube.Videos
 
 
 class PhotosAdapter(private val context: Context, private val mainLayout: MotionLayout) :
@@ -37,13 +39,13 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
         val itemView = inflater.inflate(viewType, parent, false)
 
         return when (viewType) {
-            R.layout.motion_24_recyclerview_expanded_text_header -> YouTubeDemoViewHolder.TextHeaderViewHolder(
+            R.layout.item_header -> YouTubeDemoViewHolder.TextHeaderViewHolder(
                 itemView
             )
-            R.layout.motion_24_recyclerview_expanded_text_description -> YouTubeDemoViewHolder.TextDescriptionViewHolder(
+            R.layout.item_description -> YouTubeDemoViewHolder.TextDescriptionViewHolder(
                 itemView
             )
-            R.layout.motion_24_recyclerview_expanded_row -> YouTubeDemoViewHolder.FishRowViewHolder(
+            R.layout.item_row -> YouTubeDemoViewHolder.FishRowViewHolder(
                 itemView
             )
             else -> throw IllegalStateException("Unknown viewType $viewType")
@@ -82,6 +84,11 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
                 }
                 holder.uploaderName.apply {
                     text = uploaderName
+                }
+
+                holder.uploaderThumbnail.apply {
+                    background = ShapeDrawable(OvalShape())
+                    clipToOutline = true
                 }
 
                 holder.layoutDescriptionConstraintLayout.setOnClickListener {
@@ -125,7 +132,7 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
                 holder.textView.text =
                     holder.textView.resources.getString(R.string.fish_n, imagePosition)
                 Glide.with(context)
-                    .load(Photos.photoImages[imagePosition])
+                    .load(Videos.thumbnail[imagePosition])
                     .into(holder.imageView)
             }
         }
@@ -208,13 +215,13 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> R.layout.motion_24_recyclerview_expanded_text_header
-            1 -> R.layout.motion_24_recyclerview_expanded_text_description
-            else -> R.layout.motion_24_recyclerview_expanded_row
+            0 -> R.layout.item_header
+            1 -> R.layout.item_description
+            else -> R.layout.item_row
         }
     }
 
-    override fun getItemCount() = Photos.photoImages.size + 2
+    override fun getItemCount() = Videos.video.size + 2
 
     sealed class YouTubeDemoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -239,22 +246,11 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
             val descriptionTextView =
                 itemView.findViewById(R.id.content_description_textview) as AppCompatTextView
 
+            val uploaderThumbnail =
+                itemView.findViewById(R.id.uploaderThumbnail) as AppCompatImageView
+
             val uploaderName =
                 itemView.findViewById(R.id.uploaderName) as AppCompatTextView
-/*            val thumbUpLayout = itemView.findViewById(R.id.layout_thumb_up) as ConstraintLayout
-            val thumbDownLayout = itemView.findViewById(R.id.layout_thumb_down) as ConstraintLayout
-            val shareLayout = itemView.findViewById(R.id.layout_share) as ConstraintLayout
-            val fileDownloadLayout = itemView.findViewById(R.id.layout_file_download) as ConstraintLayout
-
-            val thumbUpTextView = thumbUpLayout.findViewById(R.id.text) as AppCompatTextView
-            val thumbDownTextView = thumbDownLayout.findViewById(R.id.text) as AppCompatTextView
-            val shareTextView = shareLayout.findViewById(R.id.text) as AppCompatTextView
-            val fileDownloadTextView = fileDownloadLayout.findViewById(R.id.text) as AppCompatTextView
-
-            val thumbUpImageView = thumbUpLayout.findViewById(R.id.image) as AppCompatImageView
-            val thumbDownImageView = thumbDownLayout.findViewById(R.id.image) as AppCompatImageView
-            val shareImageView = shareLayout.findViewById(R.id.image) as AppCompatImageView
-            val fileDownloadImageView = fileDownloadLayout.findViewById(R.id.image) as AppCompatImageView*/
         }
 
         class TextDescriptionViewHolder(

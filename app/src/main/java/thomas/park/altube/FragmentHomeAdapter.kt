@@ -1,6 +1,8 @@
 package thomas.park.altube
 
 import android.content.Context
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +10,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import thomas.park.altube.youtube.Videos
 import java.lang.IllegalStateException
 
-class FragmentHomeAdapter(private val context: Context, private val photos: Photos) :
+class FragmentHomeAdapter(private val context: Context, private val videos: Videos) :
     RecyclerView.Adapter<FragmentHomeAdapter.HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -30,10 +33,14 @@ class FragmentHomeAdapter(private val context: Context, private val photos: Phot
             }
 
             is HomeViewHolder.HomeContentsViewHolder -> {
-                Glide.with(context).load(photos.photoImages[position - 1]).into(holder.thumbnail)
-                Glide.with(context).load(photos.photoImages[position - 1]).into(holder.uploaderImg)
-                holder.description.text = photos.photoNames[position - 1]
-                holder.uploader.text = photos.photoUploader[position - 1]
+                holder.uploaderImg.apply {
+                    background = ShapeDrawable(OvalShape())
+                    clipToOutline = true
+                }
+                Glide.with(context).load(videos.thumbnail[position - 1]).into(holder.thumbnail)
+                Glide.with(context).load(videos.thumbnail[position - 1]).into(holder.uploaderImg)
+                holder.description.text = videos.videoNames[position - 1]
+                holder.uploader.text = videos.videoUploader[position - 1]
             }
         }
 
@@ -46,7 +53,7 @@ class FragmentHomeAdapter(private val context: Context, private val photos: Phot
         }
     }
 
-    override fun getItemCount() = Photos.photoImages.size + 1
+    override fun getItemCount() = Videos.video.size + 1
 
 
 

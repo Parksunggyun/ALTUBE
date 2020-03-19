@@ -5,4 +5,8 @@
         <attr name="viewToDetectTouch" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="CustomVideoView">
+
+    </declare-styleable>
+
 </resources>

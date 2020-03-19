@@ -43,7 +43,7 @@
             android:layout_marginBottom="-5dp"
             android:background="?android:windowBackground"
             android:scaleType="fitXY"
-            android:src="@drawable/photo"
+            android:src="@drawable/video_01_moment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:2.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
             android:layout_height="42dp"
             android:alpha="0"
             android:background="@drawable/ripple_rect"
-            android:src="@drawable/ic_play_arrow_black_32dp"
+            android:src="@drawable/ic_pause_black_24dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/clearImage"
@@ -94,18 +94,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/videoImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
-        app:layout_constraintDimensionRatio="H,1:2.5"
-        app:layout_constraintStart_toStartOf="@id/videoDetailLayout"
-        app:layout_constraintTop_toTopOf="@id/videoDetailLayout" />
 
 
     <FrameLayout
@@ -129,6 +117,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/videoDetailLayout" />
+
+    <thomas.park.altube.youtube.CustomVideoView
+        android:id="@+id/videoImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/videoDetailLayout"
+        app:layout_constraintDimensionRatio="H,1:2.5"
+        app:layout_constraintStart_toStartOf="@id/videoDetailLayout"
+        app:layout_constraintTop_toTopOf="@id/videoDetailLayout" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
