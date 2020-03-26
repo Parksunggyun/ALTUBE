@@ -46,6 +46,8 @@ class FragmentHomeAdapter(private val context: Context, private val videos: Vide
 
     }
 
+
+
     override fun getItemViewType(position: Int): Int {
         return when(position) {
             0 -> R.layout.item_toolbar

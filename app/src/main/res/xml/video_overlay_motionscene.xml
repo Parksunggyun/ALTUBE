@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@id/fullscreen"
+        motion:constraintSetStart="@id/invisible"
+        motion:motionInterpolator="linear"
+        motion:duration="250">
+
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@id/small"
+        motion:constraintSetStart="@id/fullscreen"
+        motion:motionInterpolator="linear"
+        motion:duration="250">
+        <OnSwipe
+            motion:moveWhenScrollAtTop="@id/recommendListView"
+            motion:onTouchUp="decelerateAndComplete"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorId="@id/video_overlay_touchable_area"
+            motion:touchAnchorSide="top" />
+
+        <KeyFrameSet>
+
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="90"
+                motion:motionTarget="@id/video_overlay_thumbnail"
+                motion:percentX="0"
+                motion:percentWidth="0" />
+
+
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="90"
+                motion:motionTarget="@id/video_overlay_touchable_area"
+                motion:percentWidth="0" />
+
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="90"
+                motion:motionTarget="@id/cover"
+                motion:percentX="0"
+                motion:sizePercent="0" />
+
+            <KeyPosition
+                motion:framePosition="90"
+                motion:motionTarget="@id/playImageView"
+                motion:percentX="0"
+                motion:sizePercent="0" />
+
+            <KeyPosition
+                motion:framePosition="90"
+                motion:motionTarget="@id/clearImageView"
+                motion:percentX="0"
+                motion:sizePercent="0" />
+
+            <KeyPosition
+                motion:framePosition="90"
+                motion:motionTarget="@id/video_overlay_title"
+                motion:percentX="0" />
+
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="90"
+                motion:motionTarget="@id/recommendListViewContainer"
+                motion:percentWidth="0" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="75"
+                motion:motionTarget="@id/recommendListView" />
+
+        </KeyFrameSet>
+
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@id/invisible"
+        motion:constraintSetStart="@id/small"
+        motion:motionInterpolator="linear"
+        motion:duration="200">
+
+        <OnSwipe
+            motion:onTouchUp="decelerateAndComplete"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorId="@id/video_overlay_touchable_area"
+            motion:touchAnchorSide="left" />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/invisible">
+
+        <Constraint
+            android:id="@id/detailVideoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="#000000" />
+
+        <Constraint
+            android:id="@id/video_overlay_touchable_area"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            motion:layout_constraintTop_toBottomOf="@id/bottomNav" />
+
+        <Constraint
+            android:id="@id/video_overlay_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintDimensionRatio="W,2.5:1"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area" />
+
+
+        <Constraint
+            android:id="@id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail" />
+
+        <Constraint
+            android:id="@id/video_overlay_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/video_overlay_title"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintStart_toEndOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toStartOf="@id/playImageView"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/playImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_play_arrow_black_32dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toStartOf="@id/clearImageView"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/clearImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_clear_black_32dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+
+
+        <Constraint
+            android:id="@id/recommendListViewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+        <Constraint
+            android:id="@id/recommendListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+        <Constraint android:id="@id/bottomNav" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/fullscreen">
+
+        <Constraint
+            android:id="@id/detailVideoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="1"
+            android:background="#000000" />
+
+        <Constraint
+            android:id="@id/video_overlay_touchable_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintDimensionRatio="16:9"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@id/video_overlay_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area">
+        </Constraint>
+
+        <Constraint
+            android:id="@id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail">
+
+            <PropertySet android:alpha="0" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/video_overlay_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/video_overlay_title"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/playImageView"
+            motion:layout_constraintStart_toEndOf="@id/video_overlay_thumbnail">
+
+            <PropertySet
+                android:visibility="invisible"
+                motion:alpha="0" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/playImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_pause_black_24dp"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/clearImageView"
+            motion:layout_constraintStart_toEndOf="@id/video_overlay_title">
+
+            <PropertySet
+                android:visibility="invisible"
+                motion:alpha="0" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/clearImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintStart_toEndOf="@id/playImageView">
+
+            <PropertySet
+                android:visibility="invisible"
+                motion:alpha="0" />
+        </Constraint>
+
+
+        <Constraint
+            android:id="@id/recommendListViewContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+        <Constraint
+            android:id="@id/recommendListView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+        <Constraint
+            android:id="@id/bottomNav"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/windowBackground"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="parent" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/small">
+
+        <Constraint
+            android:id="@id/detailVideoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="#000000" />
+
+        <Constraint
+            android:id="@id/video_overlay_touchable_area"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            motion:layout_constraintBottom_toTopOf="@id/bottomNav" />
+
+        <Constraint
+            android:id="@id/video_overlay_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintDimensionRatio="H,1:2.5"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area" />
+
+
+        <Constraint
+            android:id="@id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintStart_toStartOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail">
+
+            <PropertySet android:alpha="0" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/video_overlay_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/video_overlay_title"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintStart_toEndOf="@id/video_overlay_thumbnail"
+            motion:layout_constraintEnd_toStartOf="@id/playImageView"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/playImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toStartOf="@id/clearImageView"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/clearImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toEndOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area">
+
+            <PropertySet
+                android:visibility="visible"
+                motion:alpha="1" />
+        </Constraint>
+
+
+        <Constraint
+            android:id="@id/recommendListViewContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area">
+
+        <PropertySet
+            android:visibility="visible"
+            motion:alpha="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/recommendListView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            android:background="@android:color/white"
+            motion:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+        <Constraint
+            android:id="@id/bottomNav"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/windowBackground"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+    </ConstraintSet>
+
+</MotionScene>

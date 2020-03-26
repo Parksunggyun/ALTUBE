@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="4dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginBottom="4dp"
+    android:layout_margin="8dp"
     tools:ignore="contentDescription">
 
     <ImageView
@@ -15,7 +13,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="contentDescription"
+    app:motionDebug="SHOW_ALL"
+    app:showPaths="true"
+    android:id="@+id/motionLayout"
+    app:layoutDescription="@xml/video_overlay_motionscene">
+
+
+    <FrameLayout
+        android:id="@+id/detailVideoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#000000" />
+
+    <View
+        android:id="@+id/video_overlay_touchable_area"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/bottomNav"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <VideoView
+        android:id="@+id/video_overlay_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+        app:layout_constraintDimensionRatio="H,1:2.5"
+        app:layout_constraintStart_toStartOf="@id/video_overlay_touchable_area"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cover"
+        app:layout_constraintStart_toStartOf="@id/video_overlay_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/video_overlay_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+        android:alpha="0"
+        android:background="#000"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/smallerImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_arrow_down"
+            android:scaleType="centerInside"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prevImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/playPauseImageView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_skip_prev"
+            android:scaleType="fitXY"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/playPauseImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_play"
+            android:scaleType="fitXY"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/nextImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playPauseImageView"
+            android:src="@drawable/ic_skip_next"
+            android:scaleType="fitXY"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/video_overlay_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/video_overlay_title"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_thumbnail"
+        app:layout_constraintLeft_toRightOf="@id/video_overlay_thumbnail"
+        app:layout_constraintEnd_toStartOf="@id/playImageView"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_thumbnail"
+        />
+
+    <ImageButton
+        android:id="@+id/playImageView"
+        android:layout_height="48dp"
+        android:layout_width="48dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        android:alpha="1"
+        android:background="@drawable/border_a"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area"
+        app:layout_constraintEnd_toStartOf="@id/clearImageView"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+        android:src="@drawable/ic_pause_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/clearImageView"
+        android:layout_height="48dp"
+        android:layout_width="48dp"
+        android:visibility="visible"
+        android:alpha="1"
+        android:background="@drawable/border_a"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area"
+        app:layout_constraintEnd_toEndOf="@id/video_overlay_touchable_area"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+        android:src="@drawable/ic_clear_black_32dp"/>
+
+    <FrameLayout
+        android:id="@+id/recommendListViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommendListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:overScrollMode="never"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/video_overlay_touchable_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/video_overlay_touchable_area" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:background="@drawable/border_lgtgray"
+        app:itemIconTint="@color/colorGray"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
+        app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

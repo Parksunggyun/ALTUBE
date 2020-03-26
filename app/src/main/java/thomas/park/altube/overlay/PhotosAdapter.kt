@@ -1,4 +1,4 @@
-package thomas.park.altube
+package thomas.park.altube.overlay
 
 import android.content.Context
 import android.graphics.drawable.ShapeDrawable
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import thomas.park.altube.R
 import thomas.park.altube.youtube.VideoInfo
 import thomas.park.altube.youtube.Videos
 
@@ -52,13 +53,6 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
         }
     }
 
-    fun updateVideoInfo(videoInfo: VideoInfo) {
-        uploaderName = videoInfo.videoUploader
-        title = videoInfo.videoTitle
-        description = videoInfo.videoDescription
-        notifyItemChanged(0)
-    }
-
     fun updateVideoInfo2(videoInfo: thomas.park.altube.overlay.VideoInfo) {
         uploaderName = videoInfo.uploaderName
         title = videoInfo.videoTitle
@@ -69,16 +63,13 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
     override fun onBindViewHolder(holder: YouTubeDemoViewHolder, position: Int) {
         when (holder) {
             is YouTubeDemoViewHolder.TextHeaderViewHolder -> {
-                Log.e("TextHeaderViewholder", "on bind view holder")
                 holder.contentDescriptionTextView.viewTreeObserver.addOnGlobalLayoutListener(
                     object : ViewTreeObserver.OnGlobalLayoutListener {
                         override fun onGlobalLayout() {
                             holder.contentDescriptionTextView.viewTreeObserver.removeOnGlobalLayoutListener(
                                 this
                             )
-                            height = holder.contentDescriptionTextView.height
                             height = holder.contentDescriptionTextView.measuredHeight
-                            Log.e("TextHeaderViewholder", "$height")
                             holder.contentDescriptionTextView.visibility = View.GONE
                         }
                     })
@@ -118,12 +109,11 @@ class PhotosAdapter(private val context: Context, private val mainLayout: Motion
 
                 holder.headerNav.apply {
                     setOnNavigationItemSelectedListener(onClick)
-                    Log.e(TAG, "headerNav apply")
                     val thumbUp = menu.findItem(R.id.header_thumb_up)
                     val thumbDown = menu.findItem(R.id.header_thumb_down)
-                    val share = menu.findItem(R.id.header_share)
-                    val fileDownload = menu.findItem(R.id.header_file_download)
-                    val fileDownload2 = menu.findItem(R.id.header_file_download2)
+                    //val share = menu.findItem(R.id.header_share)
+                    //val fileDownload = menu.findItem(R.id.header_file_download)
+                    //val fileDownload2 = menu.findItem(R.id.header_file_download2)
 
 
                     thumbUp.title = context.getString(R.string.text_header_thumb_up, "15")

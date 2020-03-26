@@ -201,7 +201,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/border_lgtgray"
             motion:layout_constraintBottom_toTopOf="@id/bottom_ynav">
-            <PropertySet motion:alpha="1" />
+            <PropertySet android:alpha="1" />
         </Constraint>
 
         <Constraint
@@ -219,9 +219,9 @@
         </Constraint>
 
         <Constraint
-            android:id="@id/bottom_nav"
+            android:id="@id/bottom_ynav"
             android:layout_width="0dp"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:background="?android:attr/windowBackground"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintLeft_toLeftOf="parent"
